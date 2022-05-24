@@ -1,44 +1,23 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
-    int max = Integer.MIN_VALUE;
-    
-    public int solve(TreeNode root){
-        if(root == null){
-            return 0;
-        }
-        
-        int left = solve(root.left);
-        int right = solve(root.right);
-        
-        int left_dash = Math.max(0, left);
-        int right_dash = Math.max(0, right);
-        
-        int max_sum_NTN = left_dash + right_dash + root.val;
-        
-        if(max_sum_NTN > max){
-            max = max_sum_NTN;
-        }
-        
-        return Math.max(left_dash, right_dash) + root.val;
-    }
-    
     public int maxPathSum(TreeNode root) {
-        max = Integer.MIN_VALUE;
-        solve(root);
-        return max;
+        sum = Integer.MIN_VALUE;
+        ntnHelper(root);
+        return sum;
+    }
+    int sum =0;
+    int ntnHelper(TreeNode node){
+        if(node==null)
+            return Integer.MIN_VALUE;
+        
+        int left = ntnHelper(node.left);
+        int right = ntnHelper(node.right);
+        sum = Math.max(sum, Math.max(left, right));
+
+        int takeLeft = (left!=Integer.MIN_VALUE?left:0) +node.val;
+        int takeRight = (right!=Integer.MIN_VALUE?right:0)+node.val;
+        int takeAll = takeLeft+takeRight-node.val;
+        sum = Math.max(sum, Math.max(node.val, Math.max(sum, Math.max(Math.max(takeLeft, takeRight), takeAll))) );
+        return Math.max(node.val,Math.max(takeLeft, takeRight));
+
     }
 }
