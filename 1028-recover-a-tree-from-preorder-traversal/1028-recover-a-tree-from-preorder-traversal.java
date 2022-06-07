@@ -36,7 +36,7 @@ class Solution {
         
         TreeNode node = new TreeNode(val);
         node.left = helper(str, depth+1);
-        node.right = helper(str, depth+1);
+        node.right = helper(str, depth+1); //a check can be there that if left null is not present don't check for right child;
         
         
         return node;
