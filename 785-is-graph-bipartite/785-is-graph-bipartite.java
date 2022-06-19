@@ -4,7 +4,8 @@ class Solution {
         
         for(int i=0;i<graph.length; ++i){
             if(visited[i] == 0){
-                boolean isBip = traverse(graph, visited, i);
+                //boolean isBip = traverseBFS(graph, visited, i);
+                boolean isBip = traverseDFS(graph, visited, i, 1);
                 if(isBip == false){
                     return false;
                 }
@@ -25,7 +26,7 @@ class Solution {
     }
     
     
-    public boolean traverse(int[][] graph, int[] visited, int v){
+    public boolean traverseBFS(int[][] graph, int[] visited, int v){
         ArrayDeque<Pair> queue = new ArrayDeque<>();
         
         queue.add(new Pair(v, 1));    
@@ -57,6 +58,29 @@ class Solution {
             }
             
         }
+        return true;
+    }
+    
+   
+    
+     public boolean traverseDFS(int[][] graph, int[] visited, int v, int color){
+        visited[v] = color;
+        for(int nbr: graph[v]){
+            if(visited[nbr] == 0){
+                boolean isBip = traverseDFS(graph, visited, nbr, color * -1);
+                if(isBip == false){
+                    return false;
+                }
+            } else {
+                int oc = visited[nbr];
+                int nc = color * -1;
+                
+                if(oc != nc){
+                    return false;
+                }
+            }
+        }
+        
         return true;
     }
 }
