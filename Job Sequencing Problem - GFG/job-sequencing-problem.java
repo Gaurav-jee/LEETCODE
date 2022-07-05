@@ -46,37 +46,55 @@ class Solution
     //Function to find the maximum profit and the number of jobs done.
     static int[] JobScheduling(Job arr[], int n){
         // Your code here
-        Arrays.sort(arr ,(a,b)->{
-            return b.profit-a.profit;
-        });
-        parent = new int[101];
-        for(int i=0; i<parent.length; i++){
-            parent[i]=i;
-        }
-        int ans=0;
-        int count = 0;
-        for(Job job: arr){
-            int lx = find(job.deadline);
-            if(lx>0){
-                count++;
-                ans+=job.profit;
-                parent[lx] = find(lx-1); 
-            }
-        }
+        //sort on decresing basis of Profit First [Arrays Sort].
+        //with each deadline make the deadline to be the parent[d1] = parent[d1-1];
+        //keep storing the profit and counts of jobs done.
         
-        int ret[] ={count, ans};
-        return ret;
+        Arrays.sort(arr, (a,b) -> {
+            return b.profit - a.profit;
+        });
+        
+        //parent[job(deadline)] = find(job(deadline - 1));  
+        parent = new int[101];
+
+        for(int i=0; i<101; ++i){
+            parent[i] = i;
+        }
+
+        int count = 0;
+        int profit = 0;
+        for(Job job : arr){
+            int dead1 = job.deadline;
+            int lx = find(dead1);
+
+            //if there is time
+            if(lx > 0){
+                count++;
+                profit += job.profit;
+
+                parent[lx] = find(lx - 1);
+            }
+
+        }
+        return new int[] {count , profit};
+
     }
-    static int parent[];
+
+    static int[] parent;
+
     static int find(int x){
-        if(parent[x]==x){
+        if(parent[x] == x){
             return x;
-        }else{
+        }
+        else{
             int temp = find(parent[x]);
             parent[x] = temp;
-            return temp;
+            return parent[x];
         }
     }
+    
+    
+    
 }
 
 /*
