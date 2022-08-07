@@ -43,6 +43,7 @@ class Solution {
             if(vis[nbr] == true && dfsvis[nbr] == true){
                 //is Cycle
                 isCycle = true;
+                return;
             }
             else if(vis[nbr] == false){
                 dfs(adj, vis, dfsvis, nbr);
