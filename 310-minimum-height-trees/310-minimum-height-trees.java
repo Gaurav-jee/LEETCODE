@@ -21,11 +21,11 @@ class Solution {
             indegree[v]++;
         }
         
-        ArrayDeque<Integer> queue = new ArrayDeque<>();
+        Queue<Integer> queue = new ArrayDeque<>();
         
         for(int i=0; i<n; ++i){
             if(indegree[i] == 1){
-                queue.add(i);
+                queue.offer(i);
             }
         }
         
@@ -34,27 +34,18 @@ class Solution {
             n -= size;
             
             while(size-- > 0){
-                //remove
-                int rem = queue.remove();
-                
-                //mark*
-                //work
+                int rem = queue.poll();
                 for(int i: adj[rem]){
                     indegree[i]--;
                     if(indegree[i] == 1){
-                        queue.add(i);
+                        queue.offer(i);
                     }
                 }
-                //add*
             }
         }
         
-        ArrayList<Integer> res = new ArrayList<>();
-        while(queue.size()>0){
-            res.add(queue.pop());
-        }
         
         
-        return res;
+        return new ArrayList<>(queue);
     }
 }
