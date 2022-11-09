@@ -1,4 +1,5 @@
 #User function Template for python3
+import heapq
 
 class Solution:
     def kthSmallest(self,arr, l, r, k):
@@ -9,9 +10,13 @@ class Solution:
         k : find kth smallest element and return using this function
         '''
         
-        arr.sort();
+        # arr.sort();
         
-        return arr[k-1];
+        # return arr[k-1];
+        heapq.heapify(arr);
+        for i in range(k):
+            x = heapq.heappop(arr)
+        return x
 
 
 #{ 
